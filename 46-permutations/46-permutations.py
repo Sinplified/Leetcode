@@ -1,16 +1,15 @@
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        curr,ans = [],[]
-        self.Permute(nums,curr,ans)
-        
+        ans = []
+        self.recurPermute(0,nums,ans)
         return ans
     
-    def Permute(self,nums,curr,ans):
-        if len(nums)==1:
-            ans.append(curr+nums)
+    def recurPermute(self,index,nums,ans):
+        if index == len(nums):
+            ans.append(nums[:])
             return
         
-        for i in range(len(nums)):
-            curr.append(nums[i])
-            self.Permute(nums[:i]+nums[i+1:],curr,ans)
-            curr.pop()
+        for i in range(index,len(nums)):
+            nums[index],nums[i] = nums[i],nums[index]
+            self.recurPermute(index+1,nums,ans)
+            nums[index],nums[i] = nums[i],nums[index]

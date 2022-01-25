@@ -1,63 +1,32 @@
 class Solution:
-    def solveNQueens(self, n: int) -> List[List[str]]:
-        curr = [[None for i in range(n)] for j in range(n)]
-        ans = []
-        self.Queens(0,curr,ans,n)
-        return ans
-  
-    def filler(self,curr,row,col,to_fill,val):
-        n = len(curr) 
-        
-        r = row+1
-        c = col-1
-        
-        for i in range(n):
-            if curr[row][i] == to_fill:
-                curr[row][i] = val
-        
-        for i in range(row,n):
-            if curr[i][col] == to_fill:
-                curr[i][col] = val
-        
-        while r<n and c>=0:
-            if curr[r][c] == to_fill:
-                curr[r][c] = val
-            r+=1
-            c-=1
-        
-        row+=1
-        col+=1
-        while row<n and col<n:
-            if curr[row][col] == to_fill:
-                curr[row][col] = val
-            row+=1
-            col+=1
-
-    def Queens(self,row,curr,ans,n):
-        if row == n:
-            ans1 = []
-            for row in curr:
-                row1 = ''
-                for col in row:
-                    if col !='Q':
-                        row1 += '.'
-                    else:
-                        row1 += 'Q'
-                ans1.append(row1)
-                
-            ans.append(ans1)
-            
-            return
-            
-        
-        for col in range(n):
-            if curr[row][col] == None:
-                
-                self.filler(curr,row,col,None,row)
-                curr[row][col] = 'Q'
-                
-                self.Queens(row+1,curr,ans,n)
-                
-                curr[row][col] = None
-                self.filler(curr,row,col,row,None)
     
+    def solve(self,col,board,ans,leftrow,upperDiagonal,lowerDiagonal,n):
+        if col==n:
+            ans.append([''.join(row) for row in board])
+            return
+        
+        for row in range(n):
+            if ((leftrow[row]==0) and (lowerDiagonal[row+col]==0) and 
+                (upperDiagonal[n-1+col-row]==0)):
+                board[row][col] = 'Q'
+                leftrow[row] = 1
+                lowerDiagonal[row+col] = 1
+                upperDiagonal[n-1+col-row] = 1
+                self.solve(col+1,board,ans,leftrow,upperDiagonal,lowerDiagonal,n)
+                board[row][col] = '.'
+                leftrow[row] = 0
+                lowerDiagonal[row+col] = 0
+                upperDiagonal[n-1+col-row] = 0
+                
+        
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        ans = []
+        board = [['.' for i in range(n)] for j in range(n)]
+        
+        leftrow = [0]*n
+        upperDiagonal = [0]*((2*n)-1)
+        
+        lowerDiagonal = [0]*((2*n)-1)
+        self.solve(0,board,ans,leftrow,upperDiagonal,lowerDiagonal,n)
+        
+        return ans

@@ -1,27 +1,18 @@
 class Solution:
     def singleNonDuplicate(self, nums: List[int]) -> int:
-        l = 0
-        r = len(nums)-1
-        while l<=r:
-            if l == r:
-                return nums[l]
+        lo = 0
+        hi = len(nums)-1
+        while lo<hi:
+            mid = lo + (hi-lo)//2
             
-            mid = (l+r)//2
-            lmid = mid-1
-            rmid = mid+1
+            if mid%2 == 1:
+                mid-=1
             
-            if nums[lmid] == nums[mid]:
-                if lmid%2:
-                    r = lmid-1
-                else:
-                    l = mid+1
+            if nums[mid] == nums[mid+1]:
+                lo = mid+2
             
-            elif nums[rmid] == nums[mid]:
-                if rmid%2:
-                    l = rmid+1
-                else:
-                    r = mid-1
-                
             else:
-                l = mid
-                r = mid
+                hi = mid
+        
+        return nums[lo]
+            

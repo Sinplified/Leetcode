@@ -3,7 +3,7 @@ class Solution:
         lo = 0
         hi = len(nums)-1
         while lo<hi:
-            mid = lo + (hi-lo)//2
+            mid = (lo + hi)//2
             
             if mid%2 == 1:
                 mid-=1

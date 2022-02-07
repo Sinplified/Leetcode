@@ -12,12 +12,12 @@ class Trie:
     def insert(self, word: str) -> None:
         curr = self.root
         for c in word:
-            
-            if curr.children[ord(c)-ord('a')] == None:
+            pos = ord(c)-ord('a')
+            if curr.children[pos] == None:
                 NewNode = TrieNode()
-                curr.children[ord(c) - ord('a')] = NewNode
+                curr.children[pos] = NewNode
                 
-            curr = curr.children[ord(c)-ord('a')]
+            curr = curr.children[pos]
         
         curr.end = True
         
@@ -25,9 +25,10 @@ class Trie:
         curr = self.root
         
         for c in word:
+            pos = ord(c)-ord('a')
             
-            if curr.children[ord(c)-ord('a')] != None:
-                curr = curr.children[ord(c)-ord('a')]
+            if curr.children[pos] != None:
+                curr = curr.children[pos]
             else:
                 return False
         
@@ -42,8 +43,11 @@ class Trie:
         curr = self.root
         
         for c in prefix:
-            if curr.children[ord(c)-ord('a')] != None:
-                curr = curr.children[ord(c) - ord('a')]
+            
+            pos = ord(c)-ord('a')
+            
+            if curr.children[pos] != None:
+                curr = curr.children[pos]
             
             else:
                 return False

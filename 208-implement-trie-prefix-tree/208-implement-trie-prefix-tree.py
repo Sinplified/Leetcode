@@ -1,7 +1,6 @@
 class TrieNode:
     
-    def __init__(self,data = None):
-        self.data = data
+    def __init__(self):
         self.children = [None]*26
         self.end = False
 
@@ -15,7 +14,7 @@ class Trie:
         for c in word:
             
             if curr.children[ord(c)-ord('a')] == None:
-                NewNode = TrieNode(c)
+                NewNode = TrieNode()
                 curr.children[ord(c) - ord('a')] = NewNode
                 
             curr = curr.children[ord(c)-ord('a')]

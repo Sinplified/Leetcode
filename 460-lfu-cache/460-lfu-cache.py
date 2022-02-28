@@ -55,7 +55,7 @@ class LFUCache:
         if key not in self.cache:
             return -1
         
-        return self.updateCache(self.cache[key],key,self.cache[key].val)
+        return self.updateCache(key,self.cache[key].val)
         
 
     def put(self, key: int, value: int) -> None:
@@ -63,7 +63,7 @@ class LFUCache:
             return 
         
         if key in self.cache:
-            self.updateCache(self.cache[key],key,value)
+            self.updateCache(key,value)
         
         else:
             if len(self.cache) == self.capacity:
@@ -75,7 +75,7 @@ class LFUCache:
             self.cache[key] = node
             self.minfreq = 1
     
-    def updateCache(self,node,key,value):
+    def updateCache(self,key,value):
         node = self.cache[key]
         node.val = value
         prevFreq = node.freq

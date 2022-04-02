@@ -31,7 +31,7 @@ class Solution:
             
             if z[k] == n:
                 return k-n-1
-        
+    
         return -1
         
     def matchPattern(self,text:str,pattern:str) -> int :

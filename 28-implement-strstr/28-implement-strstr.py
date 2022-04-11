@@ -1,48 +1,54 @@
 class Solution:
     
-    def calculateZ(self,Input:str,n:int):
-        z =[0]*len(Input)
-        left = right = 0
+    def getLps(self,p,lps):
+        l = 0
+        index = 1
+        m = len(p)
         
-        for k in range(len(Input)):
-            if k>right:
-                left = right = k
-                while right<len(Input) and Input[right] == Input[right-left]:
-                    right += 1
-                
-                z[k] = right - left
-                right -= 1
+        while index<m:
+            if p[index] == p[l]:
+                l+=1
+                lps[index] = l
+                index += 1
             else:
-                k1 = k - left
-                
-                if z[k1] < right-k+1:
-                    z[k] = z[k1]
-                
+                if l==0:
+                    lps[index]=0
+                    index += 1
                 else:
-                
-                    left = k
-                    while right<len(Input) and Input[right] == Input[right - left]:
-                        right +=1
-                    
-                    z[k] = right-left
-                    right -= 1
-                
-                
-            
-            if z[k] == n:
-                return k-n-1
-    
-        return -1
+                    l = lps[l-1]
         
-    def matchPattern(self,text:str,pattern:str) -> int :
-        
-        newString = pattern + '$' + text
-        
-        return self.calculateZ(newString,len(pattern))
+        return lps
     
     def strStr(self, haystack: str, needle: str) -> int:
-        if len(needle)==0 or needle == haystack:
-            return 0
         
-        return self.matchPattern(haystack,needle)
+        n = len(haystack)
+        m = len(needle)
+        
+        lps = [0]*m
+        lps = self.getLps(needle,lps)
+        
+        
+        index1 = index2 = 0
+        
+        while index1<n:
+            
+            if haystack[index1] == needle[index2]:
+                index1 += 1
+                index2 += 1
+                
+                if index2 == m:
+                    return index1 - m
+                
+                if index1 == n:
+                    return -1
+            
+            else:
+                
+                if index2 == 0:
+                    index1 += 1
+                    
+                else:
+                    index2 = lps[index2 - 1]
+            
+        return -1
     

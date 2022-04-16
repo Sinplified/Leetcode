@@ -9,25 +9,23 @@
 
 class Solution:
     
-    def help_traverse(self,root,L):        
-        if root.left == None and root.right == None:
-            L.append(root.val)
-            return
-        
-        L.append(root.val)
-        if root.left != None:
-            self.help_traverse(root.left,L)
-            
-        if root.right!=None:
-            self.help_traverse(root.right,L)
-    
     def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         
         if root == None:
             return []
         
-        L = []
+        stack = []
+        ans= []
+        stack.append(root)
         
-        self.help_traverse(root,L)
-        
-        return L
+        while(len(stack)>0):
+            curr = stack.pop()
+            ans.append(curr.val)
+            
+            if curr.right != None:
+                stack.append(curr.right)
+            
+            if curr.left != None:
+                stack.append(curr.left)
+                
+        return ans

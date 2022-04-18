@@ -9,17 +9,21 @@ class Solution:
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         
         res = []
-        stack = []
         curr = root
+        pre  = None
         
-        while(curr!= None or len(stack)!= 0):
-            while curr != None:
-                stack.append(curr)
+        while curr!= None:
+            if curr.left == None:
+                res.append(curr.val)
+                curr = curr.right
+            
+            else:
+                pre = curr.left
+                while pre.right!= None:
+                    pre = pre.right
+                pre.right = curr
+                temp = curr
                 curr = curr.left
-            
-            curr = stack.pop()
-            res.append(curr.val)
-            
-            curr = curr.right
+                temp.left = None
         
         return res

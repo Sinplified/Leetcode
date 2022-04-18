@@ -10,7 +10,6 @@ class Solution:
         
         res = []
         curr = root
-        pre  = None
         
         while curr!= None:
             if curr.left == None:
@@ -19,11 +18,16 @@ class Solution:
             
             else:
                 pre = curr.left
-                while pre.right!= None:
+                while pre.right!= None and pre.right != curr:
                     pre = pre.right
-                pre.right = curr
-                temp = curr
-                curr = curr.left
-                temp.left = None
+                
+                if pre.right == None:
+                    pre.right = curr
+                    curr = curr.left
+                
+                else:
+                    pre.right = None
+                    res.append(curr.val)
+                    curr = curr.right
         
         return res

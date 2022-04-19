@@ -11,21 +11,26 @@ class Solution:
     
     def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         
-        if root == None:
-            return []
+        res = []
+        curr = root
         
-        stack = []
-        ans= []
-        stack.append(root)
-        
-        while(len(stack)>0):
-            curr = stack.pop()
-            ans.append(curr.val)
+        while curr != None:
+            if curr.left == None:
+                res.append(curr.val)
+                curr = curr.right
             
-            if curr.right != None:
-                stack.append(curr.right)
-            
-            if curr.left != None:
-                stack.append(curr.left)
+            else:
+                pre = curr.left
+                while pre.right != None and pre.right != curr:
+                    pre = pre.right
                 
-        return ans
+                if pre.right == None:
+                    pre.right = curr
+                    res.append(curr.val)
+                    curr = curr.left
+                
+                else:
+                    pre.right = None
+                    curr = curr.right
+                    
+        return res
